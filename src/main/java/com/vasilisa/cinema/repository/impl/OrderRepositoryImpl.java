@@ -1,7 +1,7 @@
-package com.vasilisa.cinema.service.repository.impl;
+package com.vasilisa.cinema.repository.impl;
 
-import com.vasilisa.cinema.service.model.Order;
-import com.vasilisa.cinema.service.repository.OrderRepository;
+import com.vasilisa.cinema.model.Order;
+import com.vasilisa.cinema.repository.OrderRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

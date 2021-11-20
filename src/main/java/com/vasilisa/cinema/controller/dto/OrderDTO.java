@@ -1,6 +1,6 @@
 package com.vasilisa.cinema.controller.dto;
 
-import com.vasilisa.cinema.service.model.OrderItem;
+import com.vasilisa.cinema.model.OrderItem;
 import lombok.Builder;
 import lombok.Data;
 

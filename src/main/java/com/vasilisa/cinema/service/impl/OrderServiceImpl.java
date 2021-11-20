@@ -2,10 +2,10 @@ package com.vasilisa.cinema.service.impl;
 
 import com.vasilisa.cinema.controller.dto.OrderDTO;
 import com.vasilisa.cinema.service.OrderService;
-import com.vasilisa.cinema.service.model.Order;
-import com.vasilisa.cinema.service.model.Seance;
-import com.vasilisa.cinema.service.repository.OrderRepository;
-import com.vasilisa.cinema.service.repository.SeanceRepository;
+import com.vasilisa.cinema.model.Order;
+import com.vasilisa.cinema.model.Seance;
+import com.vasilisa.cinema.repository.OrderRepository;
+import com.vasilisa.cinema.repository.SeanceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

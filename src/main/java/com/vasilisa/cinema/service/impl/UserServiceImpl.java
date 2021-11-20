@@ -2,8 +2,8 @@ package com.vasilisa.cinema.service.impl;
 
 import com.vasilisa.cinema.controller.dto.UserDTO;
 import com.vasilisa.cinema.service.UserService;
-import com.vasilisa.cinema.service.model.User;
-import com.vasilisa.cinema.service.repository.UserRepository;
+import com.vasilisa.cinema.model.User;
+import com.vasilisa.cinema.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package com.vasilisa.cinema.service.model;
+package com.vasilisa.cinema.model;
 
 import com.vasilisa.cinema.controller.dto.FilmDescriptionDTO;
 import lombok.Builder;

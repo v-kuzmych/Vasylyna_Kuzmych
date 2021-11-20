@@ -1,6 +1,6 @@
-package com.vasilisa.cinema.service.repository;
+package com.vasilisa.cinema.repository;
 
-import com.vasilisa.cinema.service.model.Order;
+import com.vasilisa.cinema.model.Order;
 
 import java.util.List;
 

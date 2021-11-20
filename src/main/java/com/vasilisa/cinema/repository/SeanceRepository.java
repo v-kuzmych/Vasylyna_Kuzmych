@@ -1,6 +1,6 @@
-package com.vasilisa.cinema.service.repository;
+package com.vasilisa.cinema.repository;
 
-import com.vasilisa.cinema.service.model.Seance;
+import com.vasilisa.cinema.model.Seance;
 
 import java.util.List;
 

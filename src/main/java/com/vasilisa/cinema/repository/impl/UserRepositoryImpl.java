@@ -1,7 +1,7 @@
-package com.vasilisa.cinema.service.repository.impl;
+package com.vasilisa.cinema.repository.impl;
 
-import com.vasilisa.cinema.service.model.User;
-import com.vasilisa.cinema.service.repository.UserRepository;
+import com.vasilisa.cinema.model.User;
+import com.vasilisa.cinema.repository.UserRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

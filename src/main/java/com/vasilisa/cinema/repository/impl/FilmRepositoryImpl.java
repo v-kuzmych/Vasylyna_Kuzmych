@@ -1,7 +1,7 @@
-package com.vasilisa.cinema.service.repository.impl;
+package com.vasilisa.cinema.repository.impl;
 
-import com.vasilisa.cinema.service.model.Film;
-import com.vasilisa.cinema.service.repository.FilmRepository;
+import com.vasilisa.cinema.model.Film;
+import com.vasilisa.cinema.repository.FilmRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
