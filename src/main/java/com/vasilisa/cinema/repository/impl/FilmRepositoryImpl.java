@@ -2,10 +2,13 @@ package com.vasilisa.cinema.repository.impl;
 
 import com.vasilisa.cinema.model.Film;
 import com.vasilisa.cinema.repository.FilmRepository;
+import com.vasilisa.cinema.service.exception.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @Component
 public class FilmRepositoryImpl implements FilmRepository {
@@ -22,7 +25,7 @@ public class FilmRepositoryImpl implements FilmRepository {
         return list.stream()
                 .filter(film -> film.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("film is not find"));
+                .orElse(null);
     }
 
     @Override
@@ -37,7 +40,7 @@ public class FilmRepositoryImpl implements FilmRepository {
         if (isDeleted){
             list.add(film);
         } else {
-            throw new RuntimeException("film is not found");
+            throw new EntityNotFoundException(format("Film with id %s not found", id));
         }
         return film;
     }

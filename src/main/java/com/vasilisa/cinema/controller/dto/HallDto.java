@@ -3,10 +3,18 @@ package com.vasilisa.cinema.controller.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.Positive;
+
 @Data
 @Builder
-public class HallDTO {
+public class HallDto {
+
+    @Positive
     int id;
+
+    @Positive
     int numberOfRows;
+
+    @Positive
     int numberOfSeats;
 }

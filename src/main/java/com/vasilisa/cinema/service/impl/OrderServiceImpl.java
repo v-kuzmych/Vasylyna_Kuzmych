@@ -1,17 +1,20 @@
 package com.vasilisa.cinema.service.impl;
 
-import com.vasilisa.cinema.controller.dto.OrderDTO;
+import com.vasilisa.cinema.controller.dto.OrderDto;
 import com.vasilisa.cinema.service.OrderService;
 import com.vasilisa.cinema.model.Order;
 import com.vasilisa.cinema.model.Seance;
 import com.vasilisa.cinema.repository.OrderRepository;
 import com.vasilisa.cinema.repository.SeanceRepository;
+import com.vasilisa.cinema.service.exception.EntityNotFoundException;
+import com.vasilisa.cinema.service.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 @Slf4j
 @Service
@@ -22,25 +25,25 @@ public class OrderServiceImpl implements OrderService {
     private final SeanceRepository seanceRepository;
 
     @Override
-    public List<OrderDTO> getAllOrders() {
+    public List<OrderDto> getAllOrders() {
         log.info("get all orders");
-        return orderRepository.getAllOrders()
-                .stream()
-                .map(this::mapOrderToOrderDto)
-                .collect(Collectors.toList());
+        return OrderMapper.INSTANCE.mapOrderDtos(orderRepository.getAllOrders());
     }
 
     @Override
-    public OrderDTO getOrder(int id) {
+    public OrderDto getOrder(int id) {
         log.info("get order by id {}", id);
         Order order = orderRepository.getOrder(id);
-        return mapOrderToOrderDto(order);
+        if (order == null) {
+            throw new EntityNotFoundException(format("Order with id %s not found", id));
+        }
+        return OrderMapper.INSTANCE.mapOrderDto(order);
     }
 
     @Override
-    public OrderDTO createOrder(OrderDTO orderDTO) {
-        log.info("create order with id {}", orderDTO.getId());
-        Order order = mapOrderDtoToOrder(orderDTO);
+    public OrderDto createOrder(OrderDto orderDto) {
+        log.info("create order with id {}", orderDto.getId());
+        Order order = OrderMapper.INSTANCE.mapOrder(orderDto);
         order = orderRepository.createOrder(order);
 
         // update free seats in seance
@@ -49,42 +52,20 @@ public class OrderServiceImpl implements OrderService {
         seance.setFreeSeats(seance.getFreeSeats() - order.getOrderItems().size());
         seanceRepository.updateSeance(seance.getId(), seance);
 
-        return mapOrderToOrderDto(order);
+        return OrderMapper.INSTANCE.mapOrderDto(order);
     }
 
     @Override
-    public OrderDTO updateOrder(int id, OrderDTO orderDTO) {
+    public OrderDto updateOrder(int id, OrderDto orderDto) {
         log.info("update order with id {}", id);
-        Order order = mapOrderDtoToOrder(orderDTO);
+        Order order = OrderMapper.INSTANCE.mapOrder(orderDto);
         order = orderRepository.updateOrder(id, order);
-        return mapOrderToOrderDto(order);
+        return OrderMapper.INSTANCE.mapOrderDto(order);
     }
 
     @Override
     public void deleteOrder(int id) {
         log.info("delete order with id {}", id);
         orderRepository.deleteOrder(id);
-    }
-
-    private OrderDTO mapOrderToOrderDto(Order order){
-        return OrderDTO.builder()
-                .id(order.getId())
-                .userId(order.getUserId())
-                .seanceId(order.getSeanceId())
-                .price(order.getPrice())
-                .date(order.getDate())
-                .orderItems(order.getOrderItems())
-                .build();
-    }
-
-    private Order mapOrderDtoToOrder(OrderDTO orderDTO){
-        return Order.builder()
-                .id(orderDTO.getId())
-                .userId(orderDTO.getUserId())
-                .seanceId(orderDTO.getSeanceId())
-                .price(orderDTO.getPrice())
-                .date(orderDTO.getDate())
-                .orderItems(orderDTO.getOrderItems())
-                .build();
     }
 }

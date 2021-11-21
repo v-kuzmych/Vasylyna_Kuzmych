@@ -1,12 +1,13 @@
 package com.vasilisa.cinema.controller;
 
-import com.vasilisa.cinema.controller.dto.UserDTO;
+import com.vasilisa.cinema.controller.dto.UserDto;
 import com.vasilisa.cinema.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,26 +18,26 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users")
-    public List<UserDTO> getAllUsers(){
+    public List<UserDto> getAllUsers(){
         return userService.getAllUsers();
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/user/{id}")
-    public UserDTO getUser(@PathVariable int id){
+    public UserDto getUser(@PathVariable int id){
         return userService.getUser(id);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "/user")
-    public UserDTO createUser(@RequestBody UserDTO userDTO){
-        return userService.createUser(userDTO);
+    public UserDto createUser(@RequestBody @Valid UserDto userDto){
+        return userService.createUser(userDto);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/user/{id}")
-    public UserDTO updateUser(@PathVariable int id, @RequestBody UserDTO userDTO){
-        return userService.updateUser(id, userDTO);
+    public UserDto updateUser(@PathVariable int id, @Valid @RequestBody UserDto userDto){
+        return userService.updateUser(id, userDto);
     }
 
     @DeleteMapping(value = "/user/{id}")

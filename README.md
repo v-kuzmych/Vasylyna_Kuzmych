@@ -1,9 +1,12 @@
-# Homework for Java Lecture #4: Spring : Spring Web (Part 1)
+# Homework for Java Lecture #5: Spring : Spring Web (Part 2)
 
-1. Migrate functionality related to core business logic of Servlet-based application to newly created Spring MVC project adapting the old one to the correct package structure, naming conventions, etc.:
-    * get rid of all JSP views (now your service will be consuming and populating only JSON text format)
-    * make your service RESTful (don't implement HATEOAS logic for now. It will be accomplished in the scope of next lecture)
-    * the best approach is to start from the scratch and create an empty Spring Boot project using the 'Spring Initializr'.
-    * avoid code copypaste from the old project, unless it relates to the business logic.
-2. Create DTO classes and use them at the controller level.
-3. Add logging to all layers of the application.
+1. Extend your service functionality by:
+   - adding basic validation to DTO classes
+   - implementing custom common and unified error handling functionality using Spring MVC components.
+   - adding the Spring Boot Actuator to your project and configuring the ‘/info’ endpoint of it.
+   - extending your service RESTful endpoints by adding versioning alongside Swagger2 documentation.
+
+***
+Import cinema.postman_collection.json into Postman to see the request examples.
+
+Api Documentation: http://localhost:8080/swagger-ui.html#/

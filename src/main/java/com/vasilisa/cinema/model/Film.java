@@ -1,6 +1,6 @@
 package com.vasilisa.cinema.model;
 
-import com.vasilisa.cinema.controller.dto.FilmDescriptionDTO;
+import com.vasilisa.cinema.controller.dto.FilmDescriptionDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,5 +12,5 @@ public class Film {
     int id;
     String img;
     int duration;
-    List<FilmDescriptionDTO> filmDescriptions;
+    List<FilmDescriptionDto> filmDescriptions;
 }

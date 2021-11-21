@@ -2,10 +2,13 @@ package com.vasilisa.cinema.repository.impl;
 
 import com.vasilisa.cinema.model.Seance;
 import com.vasilisa.cinema.repository.SeanceRepository;
+import com.vasilisa.cinema.service.exception.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @Component
 public class SeanceRepositoryImpl implements SeanceRepository {
@@ -22,7 +25,7 @@ public class SeanceRepositoryImpl implements SeanceRepository {
         return list.stream()
                 .filter(seance -> seance.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("seance is not find"));
+                .orElse(null);
     }
 
     @Override
@@ -37,7 +40,7 @@ public class SeanceRepositoryImpl implements SeanceRepository {
         if (isDeleted){
             list.add(seance);
         } else {
-            throw new RuntimeException("seance is not found");
+            throw new EntityNotFoundException(format("Seance with id %s not found", id));
         }
         return seance;
     }

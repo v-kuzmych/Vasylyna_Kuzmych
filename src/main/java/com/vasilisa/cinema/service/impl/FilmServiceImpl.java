@@ -1,15 +1,18 @@
 package com.vasilisa.cinema.service.impl;
 
-import com.vasilisa.cinema.controller.dto.FilmDTO;
-import com.vasilisa.cinema.service.FilmService;
+import com.vasilisa.cinema.controller.dto.FilmDto;
 import com.vasilisa.cinema.model.Film;
+import com.vasilisa.cinema.service.FilmService;
 import com.vasilisa.cinema.repository.FilmRepository;
+import com.vasilisa.cinema.service.exception.EntityNotFoundException;
+import com.vasilisa.cinema.service.mapper.FilmMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 @Slf4j
 @Service
@@ -19,58 +22,40 @@ public class FilmServiceImpl implements FilmService {
     private final FilmRepository filmRepository;
 
     @Override
-    public List<FilmDTO> getAllFilms() {
+    public List<FilmDto> getAllFilms() {
         log.info("get all films");
-        return filmRepository.getAllFilms()
-                .stream()
-                .map(this::mapFilmToFilmDto)
-                .collect(Collectors.toList());
+        return FilmMapper.INSTANCE.mapFilmDtos(filmRepository.getAllFilms());
     }
 
     @Override
-    public FilmDTO getFilm(int id) {
+    public FilmDto getFilm(int id) {
         log.info("get film by id {}", id);
         Film film = filmRepository.getFilm(id);
-        return mapFilmToFilmDto(film);
+        if (film == null) {
+            throw new EntityNotFoundException(format("Film with id %s not found", id));
+        }
+        return FilmMapper.INSTANCE.mapFilmDto(film);
     }
 
     @Override
-    public FilmDTO createFilm(FilmDTO filmDTO) {
-        log.info("create film with id {}", filmDTO.getId());
-        Film film = mapFilmDtoToFilm(filmDTO);
+    public FilmDto createFilm(FilmDto filmDto) {
+        log.info("create film with id {}", filmDto.getId());
+        Film film = FilmMapper.INSTANCE.mapFilm(filmDto);
         film = filmRepository.createFilm(film);
-        return mapFilmToFilmDto(film);
+        return FilmMapper.INSTANCE.mapFilmDto(film);
     }
 
     @Override
-    public FilmDTO updateFilm(int id, FilmDTO filmDTO) {
+    public FilmDto updateFilm(int id, FilmDto filmDto) {
         log.info("update film with id {}", id);
-        Film film = mapFilmDtoToFilm(filmDTO);
+        Film film = FilmMapper.INSTANCE.mapFilm(filmDto);
         film = filmRepository.updateFilm(id, film);
-        return mapFilmToFilmDto(film);
+        return FilmMapper.INSTANCE.mapFilmDto(film);
     }
 
     @Override
     public void deleteFilm(int id) {
         log.info("delete film with id {}", id);
         filmRepository.deleteFilm(id);
-    }
-
-    private FilmDTO mapFilmToFilmDto(Film film){
-        return FilmDTO.builder()
-                .id(film.getId())
-                .img(film.getImg())
-                .duration(film.getDuration())
-                .filmDescriptions(film.getFilmDescriptions())
-                .build();
-    }
-
-    private Film mapFilmDtoToFilm(FilmDTO filmDTO){
-        return Film.builder()
-                .id(filmDTO.getId())
-                .img(filmDTO.getImg())
-                .duration(filmDTO.getDuration())
-                .filmDescriptions(filmDTO.getFilmDescriptions())
-                .build();
     }
 }

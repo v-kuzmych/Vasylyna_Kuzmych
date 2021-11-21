@@ -1,15 +1,18 @@
 package com.vasilisa.cinema.service.impl;
 
-import com.vasilisa.cinema.controller.dto.HallDTO;
+import com.vasilisa.cinema.controller.dto.HallDto;
 import com.vasilisa.cinema.model.Hall;
 import com.vasilisa.cinema.service.HallService;
 import com.vasilisa.cinema.repository.HallRepository;
+import com.vasilisa.cinema.service.exception.EntityNotFoundException;
+import com.vasilisa.cinema.service.mapper.HallMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 @Slf4j
 @Service
@@ -19,56 +22,40 @@ public class HallServiceImpl implements HallService {
     private final HallRepository hallRepository;
 
     @Override
-    public List<HallDTO> getAllHalls() {
+    public List<HallDto> getAllHalls() {
         log.info("get all halls");
-        return hallRepository.getAllHalls()
-                .stream()
-                .map(this::mapHallToHallDto)
-                .collect(Collectors.toList());
+        return HallMapper.INSTANCE.mapHallDtos(hallRepository.getAllHalls());
     }
 
     @Override
-    public HallDTO getHall(int id) {
+    public HallDto getHall(int id) {
         log.info("get hall by id {}", id);
         Hall hall = hallRepository.getHall(id);
-        return mapHallToHallDto(hall);
+        if (hall == null) {
+            throw new EntityNotFoundException(format("Hall with id %s not found", id));
+        }
+        return HallMapper.INSTANCE.mapHallDto(hall);
     }
 
     @Override
-    public HallDTO createHall(HallDTO hallDTO) {
-        log.info("create hall with id {}", hallDTO.getId());
-        Hall hall = mapHallDtoToHall(hallDTO);
+    public HallDto createHall(HallDto hallDto) {
+        log.info("create hall with id {}", hallDto.getId());
+        Hall hall = HallMapper.INSTANCE.mapHall(hallDto);
         hall = hallRepository.createHall(hall);
-        return mapHallToHallDto(hall);
+        return HallMapper.INSTANCE.mapHallDto(hall);
     }
 
     @Override
-    public HallDTO updateHall(int id, HallDTO hallDTO) {
+    public HallDto updateHall(int id, HallDto hallDto) {
         log.info("update hall with id {}", id);
-        Hall hall = mapHallDtoToHall(hallDTO);
+        Hall hall = HallMapper.INSTANCE.mapHall(hallDto);
         hall = hallRepository.updateHall(id, hall);
-        return mapHallToHallDto(hall);
+        return HallMapper.INSTANCE.mapHallDto(hall);
     }
 
     @Override
     public void deleteHall(int id) {
         log.info("delete hall with id {}", id);
         hallRepository.deleteHall(id);
-    }
-
-    private HallDTO mapHallToHallDto(Hall hall){
-        return HallDTO.builder()
-                .id(hall.getId())
-                .numberOfRows(hall.getNumberOfRows())
-                .numberOfSeats(hall.getNumberOfSeats())
-                .build();
-    }
-
-    private Hall mapHallDtoToHall(HallDTO hallDTO){
-        return Hall.builder()
-                .id(hallDTO.getId())
-                .numberOfRows(hallDTO.getNumberOfRows())
-                .numberOfSeats(hallDTO.getNumberOfSeats())
-                .build();
     }
 }

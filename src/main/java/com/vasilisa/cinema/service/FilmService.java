@@ -1,17 +1,17 @@
 package com.vasilisa.cinema.service;
 
-import com.vasilisa.cinema.controller.dto.FilmDTO;
+import com.vasilisa.cinema.controller.dto.FilmDto;
 
 import java.util.List;
 
 public interface FilmService {
-    List<FilmDTO> getAllFilms();
+    List<FilmDto> getAllFilms();
 
-    FilmDTO getFilm(int id);
+    FilmDto getFilm(int id);
 
-    FilmDTO createFilm(FilmDTO filmDTO);
+    FilmDto createFilm(FilmDto filmDTO);
 
-    FilmDTO updateFilm(int id, FilmDTO filmDTO);
+    FilmDto updateFilm(int id, FilmDto filmDTO);
 
     void deleteFilm(int id);
 }

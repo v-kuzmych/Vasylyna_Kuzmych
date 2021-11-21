@@ -1,15 +1,18 @@
 package com.vasilisa.cinema.service.impl;
 
-import com.vasilisa.cinema.controller.dto.UserDTO;
+import com.vasilisa.cinema.controller.dto.UserDto;
 import com.vasilisa.cinema.service.UserService;
 import com.vasilisa.cinema.model.User;
 import com.vasilisa.cinema.repository.UserRepository;
+import com.vasilisa.cinema.service.exception.EntityNotFoundException;
+import com.vasilisa.cinema.service.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.lang.String.format;
 
 @Slf4j
 @Service
@@ -19,58 +22,40 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public List<UserDTO> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         log.info("get all users");
-        return userRepository.getAllUsers()
-                .stream()
-                .map(this::mapUserToUserDto)
-                .collect(Collectors.toList());
+        return UserMapper.INSTANCE.mapUserDtos(userRepository.getAllUsers());
     }
 
     @Override
-    public UserDTO getUser(int id) {
+    public UserDto getUser(int id) {
         log.info("get user by id {}", id);
         User user = userRepository.getUser(id);
-        return mapUserToUserDto(user);
+        if (user == null) {
+            throw new EntityNotFoundException(format("User with id %s not found", id));
+        }
+        return UserMapper.INSTANCE.mapUserDto(user);
     }
 
     @Override
-    public UserDTO createUser(UserDTO userDTO) {
-        log.info("create user with id {}", userDTO.getId());
-        User user = mapUserDtoToUser(userDTO);
+    public UserDto createUser(UserDto userDto) {
+        log.info("create user with id {}", userDto.getId());
+        User user = UserMapper.INSTANCE.mapUser(userDto);
         user = userRepository.createUser(user);
-        return mapUserToUserDto(user);
+        return UserMapper.INSTANCE.mapUserDto(user);
     }
 
     @Override
-    public UserDTO updateUser(int id, UserDTO userDTO) {
+    public UserDto updateUser(int id, UserDto userDto) {
         log.info("update user with id {}", id);
-        User user = mapUserDtoToUser(userDTO);
+        User user = UserMapper.INSTANCE.mapUser(userDto);
         user = userRepository.updateUser(id, user);
-        return mapUserToUserDto(user);
+        return UserMapper.INSTANCE.mapUserDto(user);
     }
 
     @Override
     public void deleteUser(int id) {
         log.info("delete user with id {}", id);
         userRepository.deleteUser(id);
-    }
-
-    private UserDTO mapUserToUserDto(User user){
-        return UserDTO.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .email(user.getEmail())
-                .password(user.getPassword())
-                .build();
-    }
-
-    private User mapUserDtoToUser(UserDTO userDTO){
-        return User.builder()
-                .id(userDTO.getId())
-                .name(userDTO.getName())
-                .email(userDTO.getEmail())
-                .password(userDTO.getPassword())
-                .build();
     }
 }

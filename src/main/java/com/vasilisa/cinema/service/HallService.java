@@ -1,18 +1,18 @@
 package com.vasilisa.cinema.service;
 
-import com.vasilisa.cinema.controller.dto.HallDTO;
+import com.vasilisa.cinema.controller.dto.HallDto;
 
 import java.util.List;
 
 public interface HallService {
 
-    List<HallDTO> getAllHalls();
+    List<HallDto> getAllHalls();
 
-    HallDTO getHall(int id);
+    HallDto getHall(int id);
 
-    HallDTO createHall(HallDTO hallDTO);
+    HallDto createHall(HallDto hallDTO);
 
-    HallDTO updateHall(int id, HallDTO hallDTO);
+    HallDto updateHall(int id, HallDto hallDTO);
 
     void deleteHall(int id);
 }

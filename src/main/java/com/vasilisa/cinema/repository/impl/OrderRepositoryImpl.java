@@ -2,11 +2,14 @@ package com.vasilisa.cinema.repository.impl;
 
 import com.vasilisa.cinema.model.Order;
 import com.vasilisa.cinema.repository.OrderRepository;
+import com.vasilisa.cinema.service.exception.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @Component
 public class OrderRepositoryImpl implements OrderRepository {
@@ -23,7 +26,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         return list.stream()
                 .filter(order -> order.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("order is not find"));
+                .orElse(null);
     }
 
     @Override
@@ -39,7 +42,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         if (isDeleted){
             list.add(order);
         } else {
-            throw new RuntimeException("order is not found");
+            throw new EntityNotFoundException(format("Order with id %s not found", id));
         }
         return order;
     }

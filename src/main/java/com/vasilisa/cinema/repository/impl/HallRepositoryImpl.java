@@ -2,10 +2,13 @@ package com.vasilisa.cinema.repository.impl;
 
 import com.vasilisa.cinema.model.Hall;
 import com.vasilisa.cinema.repository.HallRepository;
+import com.vasilisa.cinema.service.exception.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @Component
 public class HallRepositoryImpl implements HallRepository {
@@ -22,7 +25,7 @@ public class HallRepositoryImpl implements HallRepository {
         return list.stream()
                 .filter(hall -> hall.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("hall is not find"));
+                .orElse(null);
     }
 
     @Override
@@ -37,7 +40,7 @@ public class HallRepositoryImpl implements HallRepository {
         if (isDeleted){
             list.add(hall);
         } else {
-            throw new RuntimeException("hall is not found");
+            throw new EntityNotFoundException(format("Hall with id %s not found", id));
         }
         return hall;
     }

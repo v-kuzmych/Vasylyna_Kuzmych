@@ -1,18 +1,18 @@
 package com.vasilisa.cinema.service;
 
-import com.vasilisa.cinema.controller.dto.UserDTO;
+import com.vasilisa.cinema.controller.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<UserDTO> getAllUsers();
+    List<UserDto> getAllUsers();
 
-    UserDTO getUser(int id);
+    UserDto getUser(int id);
 
-    UserDTO createUser(UserDTO userDTO);
+    UserDto createUser(UserDto userDTO);
 
-    UserDTO updateUser(int id, UserDTO userDTO);
+    UserDto updateUser(int id, UserDto userDTO);
 
     void deleteUser(int id);
 }

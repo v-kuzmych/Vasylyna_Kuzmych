@@ -1,18 +1,18 @@
 package com.vasilisa.cinema.service;
 
-import com.vasilisa.cinema.controller.dto.OrderDTO;
+import com.vasilisa.cinema.controller.dto.OrderDto;
 
 import java.util.List;
 
 public interface OrderService {
 
-    List<OrderDTO> getAllOrders();
+    List<OrderDto> getAllOrders();
 
-    OrderDTO getOrder(int id);
+    OrderDto getOrder(int id);
 
-    OrderDTO createOrder(OrderDTO orderDTO);
+    OrderDto createOrder(OrderDto orderDTO);
 
-    OrderDTO updateOrder(int id, OrderDTO orderDTO);
+    OrderDto updateOrder(int id, OrderDto orderDTO);
 
     void deleteOrder(int id);
 }

@@ -2,11 +2,14 @@ package com.vasilisa.cinema.repository.impl;
 
 import com.vasilisa.cinema.model.User;
 import com.vasilisa.cinema.repository.UserRepository;
+import com.vasilisa.cinema.service.exception.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @Component
 public class UserRepositoryImpl implements UserRepository {
@@ -23,7 +26,7 @@ public class UserRepositoryImpl implements UserRepository {
         return list.stream()
                 .filter(user -> user.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("user is not find"));
+                .orElse(null);
     }
 
     @Override
@@ -40,7 +43,7 @@ public class UserRepositoryImpl implements UserRepository {
         if (isDeleted){
             list.add(user);
         } else {
-            throw new RuntimeException("user is not found");
+            throw new EntityNotFoundException(format("User with id %s not found", id));
         }
         return user;
     }
