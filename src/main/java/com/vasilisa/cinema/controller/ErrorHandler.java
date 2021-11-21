@@ -1,6 +1,6 @@
 package com.vasilisa.cinema.controller;
 
-import com.vasilisa.cinema.service.exception.EntityNotFoundException;
+import com.vasilisa.cinema.exception.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

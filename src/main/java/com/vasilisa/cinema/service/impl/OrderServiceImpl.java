@@ -6,7 +6,7 @@ import com.vasilisa.cinema.model.Order;
 import com.vasilisa.cinema.model.Seance;
 import com.vasilisa.cinema.repository.OrderRepository;
 import com.vasilisa.cinema.repository.SeanceRepository;
-import com.vasilisa.cinema.service.exception.EntityNotFoundException;
+import com.vasilisa.cinema.exception.EntityNotFoundException;
 import com.vasilisa.cinema.service.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

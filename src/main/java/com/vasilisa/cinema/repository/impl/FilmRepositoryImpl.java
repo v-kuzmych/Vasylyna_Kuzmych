@@ -2,7 +2,7 @@ package com.vasilisa.cinema.repository.impl;
 
 import com.vasilisa.cinema.model.Film;
 import com.vasilisa.cinema.repository.FilmRepository;
-import com.vasilisa.cinema.service.exception.EntityNotFoundException;
+import com.vasilisa.cinema.exception.EntityNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

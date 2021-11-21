@@ -1,4 +1,4 @@
-package com.vasilisa.cinema.service.exception;
+package com.vasilisa.cinema.exception;
 
 public class EntityNotFoundException extends RuntimeException {
 

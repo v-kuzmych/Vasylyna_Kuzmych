@@ -4,7 +4,7 @@ import com.vasilisa.cinema.controller.dto.FilmDto;
 import com.vasilisa.cinema.model.Film;
 import com.vasilisa.cinema.service.FilmService;
 import com.vasilisa.cinema.repository.FilmRepository;
-import com.vasilisa.cinema.service.exception.EntityNotFoundException;
+import com.vasilisa.cinema.exception.EntityNotFoundException;
 import com.vasilisa.cinema.service.mapper.FilmMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
