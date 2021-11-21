@@ -1,13 +1,13 @@
 package com.vasilisa.cinema.service.impl;
 
-import com.vasilisa.cinema.controller.dto.SeanceDto;
+import com.vasilisa.cinema.dto.SeanceDto;
 import com.vasilisa.cinema.service.SeanceService;
 import com.vasilisa.cinema.model.Hall;
 import com.vasilisa.cinema.model.Seance;
 import com.vasilisa.cinema.repository.HallRepository;
 import com.vasilisa.cinema.repository.SeanceRepository;
 import com.vasilisa.cinema.exception.EntityNotFoundException;
-import com.vasilisa.cinema.service.mapper.SeanceMapper;
+import com.vasilisa.cinema.mapper.SeanceMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

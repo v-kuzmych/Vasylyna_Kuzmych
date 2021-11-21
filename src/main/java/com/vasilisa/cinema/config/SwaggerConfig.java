@@ -1,4 +1,4 @@
-package com.vasilisa.cinema;
+package com.vasilisa.cinema.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

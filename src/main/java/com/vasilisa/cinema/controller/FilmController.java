@@ -1,6 +1,6 @@
 package com.vasilisa.cinema.controller;
 
-import com.vasilisa.cinema.controller.dto.FilmDto;
+import com.vasilisa.cinema.dto.FilmDto;
 import com.vasilisa.cinema.service.FilmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

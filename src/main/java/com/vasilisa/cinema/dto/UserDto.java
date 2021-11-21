@@ -1,27 +1,25 @@
-package com.vasilisa.cinema.controller.dto;
+package com.vasilisa.cinema.dto;
 
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @Data
 @Builder
-public class FilmDescriptionDto {
+public class UserDto {
 
     @Positive
     int id;
 
-    @Positive
-    int filmId;
-
-    @Positive
-    int languageId;
-
     @NotBlank
     String name;
 
+    @Email
+    String email;
+
     @NotBlank
-    String description;
+    String password;
 }

@@ -1,4 +1,4 @@
-package com.vasilisa.cinema.controller;
+package com.vasilisa.cinema.controller.handler;
 
 import com.vasilisa.cinema.exception.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;

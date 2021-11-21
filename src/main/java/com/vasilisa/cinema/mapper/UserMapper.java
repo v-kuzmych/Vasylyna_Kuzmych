@@ -1,6 +1,6 @@
-package com.vasilisa.cinema.service.mapper;
+package com.vasilisa.cinema.mapper;
 
-import com.vasilisa.cinema.controller.dto.UserDto;
+import com.vasilisa.cinema.dto.UserDto;
 import com.vasilisa.cinema.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

@@ -1,4 +1,4 @@
-package com.vasilisa.cinema.controller.dto;
+package com.vasilisa.cinema.dto;
 
 import lombok.Builder;
 import lombok.Data;

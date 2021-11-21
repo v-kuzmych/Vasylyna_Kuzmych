@@ -1,11 +1,11 @@
 package com.vasilisa.cinema.service.impl;
 
-import com.vasilisa.cinema.controller.dto.UserDto;
+import com.vasilisa.cinema.dto.UserDto;
 import com.vasilisa.cinema.service.UserService;
 import com.vasilisa.cinema.model.User;
 import com.vasilisa.cinema.repository.UserRepository;
 import com.vasilisa.cinema.exception.EntityNotFoundException;
-import com.vasilisa.cinema.service.mapper.UserMapper;
+import com.vasilisa.cinema.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

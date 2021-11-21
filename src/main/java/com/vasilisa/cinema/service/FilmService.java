@@ -1,6 +1,6 @@
 package com.vasilisa.cinema.service;
 
-import com.vasilisa.cinema.controller.dto.FilmDto;
+import com.vasilisa.cinema.dto.FilmDto;
 
 import java.util.List;
 

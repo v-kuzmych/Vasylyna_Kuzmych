@@ -1,11 +1,11 @@
 package com.vasilisa.cinema.service.impl;
 
-import com.vasilisa.cinema.controller.dto.HallDto;
+import com.vasilisa.cinema.dto.HallDto;
 import com.vasilisa.cinema.model.Hall;
 import com.vasilisa.cinema.service.HallService;
 import com.vasilisa.cinema.repository.HallRepository;
 import com.vasilisa.cinema.exception.EntityNotFoundException;
-import com.vasilisa.cinema.service.mapper.HallMapper;
+import com.vasilisa.cinema.mapper.HallMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

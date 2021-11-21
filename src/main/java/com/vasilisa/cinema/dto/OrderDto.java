@@ -1,4 +1,4 @@
-package com.vasilisa.cinema.controller.dto;
+package com.vasilisa.cinema.dto;
 
 import com.vasilisa.cinema.model.OrderItem;
 import lombok.Builder;
