@@ -1,6 +1,8 @@
 package com.vasilisa.cinema.service.impl;
 
 import com.vasilisa.cinema.dto.HallDto;
+import com.vasilisa.cinema.mapper.FilmMapper;
+import com.vasilisa.cinema.model.Film;
 import com.vasilisa.cinema.model.Hall;
 import com.vasilisa.cinema.service.HallService;
 import com.vasilisa.cinema.repository.HallRepository;
@@ -8,6 +10,8 @@ import com.vasilisa.cinema.exception.EntityNotFoundException;
 import com.vasilisa.cinema.mapper.HallMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,18 +26,21 @@ public class HallServiceImpl implements HallService {
     private final HallRepository hallRepository;
 
     @Override
-    public List<HallDto> getAllHalls() {
+    public List<HallDto> getAllHalls(Pageable pageable) {
         log.info("get all halls");
-        return HallMapper.INSTANCE.mapHallDtos(hallRepository.getAllHalls());
+        Page<Hall> pagedResult = hallRepository.findAll(pageable);
+
+        if (!pagedResult.hasContent()) {
+            throw new EntityNotFoundException(format("Halls not found"));
+        }
+
+        return HallMapper.INSTANCE.mapHallDtos(pagedResult.getContent());
     }
 
     @Override
-    public HallDto getHall(int id) {
+    public HallDto getHall(Long id) {
         log.info("get hall by id {}", id);
-        Hall hall = hallRepository.getHall(id);
-        if (hall == null) {
-            throw new EntityNotFoundException(format("Hall with id %s not found", id));
-        }
+        Hall hall = hallRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(format("Hall with id %s not found", id)));
         return HallMapper.INSTANCE.mapHallDto(hall);
     }
 
@@ -41,21 +48,28 @@ public class HallServiceImpl implements HallService {
     public HallDto createHall(HallDto hallDto) {
         log.info("create hall with id {}", hallDto.getId());
         Hall hall = HallMapper.INSTANCE.mapHall(hallDto);
-        hall = hallRepository.createHall(hall);
+        hall = hallRepository.save(hall);
         return HallMapper.INSTANCE.mapHallDto(hall);
     }
 
     @Override
-    public HallDto updateHall(int id, HallDto hallDto) {
+    public HallDto updateHall(HallDto hallDto) {
+        Long id = hallDto.getId();
         log.info("update hall with id {}", id);
+        if (!hallRepository.existsById(id)){
+            throw new EntityNotFoundException(format("Hall with id %s not found", id));
+        }
         Hall hall = HallMapper.INSTANCE.mapHall(hallDto);
-        hall = hallRepository.updateHall(id, hall);
+        hall = hallRepository.save(hall);
         return HallMapper.INSTANCE.mapHallDto(hall);
     }
 
     @Override
-    public void deleteHall(int id) {
+    public void deleteHall(Long id) {
         log.info("delete hall with id {}", id);
-        hallRepository.deleteHall(id);
+        if (!hallRepository.existsById(id)){
+            throw new EntityNotFoundException(format("Hall with id %s not found", id));
+        }
+        hallRepository.deleteById(id);
     }
 }

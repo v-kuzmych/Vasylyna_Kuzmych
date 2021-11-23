@@ -1,18 +1,22 @@
 package com.vasilisa.cinema.repository;
 
 import com.vasilisa.cinema.model.Hall;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface HallRepository {
+@Repository
+public interface HallRepository extends JpaRepository<Hall, Long> {
 
-    List<Hall> getAllHalls();
+    List<Hall> findAll();
 
-    Hall getHall(int id);
+    Optional<Hall> findById(Long id);
 
-    Hall createHall(Hall hall);
+    boolean existsById(Long id);
 
-    Hall updateHall(int id, Hall hall);
+    Hall save(Hall hall);
 
-    void deleteHall(int id);
+    void deleteById(Long id);
 }

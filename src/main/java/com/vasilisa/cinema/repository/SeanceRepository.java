@@ -1,18 +1,22 @@
 package com.vasilisa.cinema.repository;
 
 import com.vasilisa.cinema.model.Seance;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface SeanceRepository {
+@Repository
+public interface SeanceRepository extends JpaRepository<Seance, Long> {
 
-    List<Seance> getAllSeances();
+    List<Seance> findAll();
 
-    Seance getSeance(int id);
+    Optional<Seance> findById(Long id);
 
-    Seance createSeance(Seance seance);
+    boolean existsById(Long id);
 
-    Seance updateSeance(int id, Seance seance);
+    Seance save(Seance seance);
 
-    void deleteSeance(int id);
+    void deleteById(Long id);
 }

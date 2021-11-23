@@ -1,18 +1,22 @@
 package com.vasilisa.cinema.repository;
 
 import com.vasilisa.cinema.model.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface OrderRepository {
+@Repository
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    List<Order> getAllOrders();
+    List<Order> findAll();
 
-    Order getOrder(int id);
+    Optional<Order> findById(Long id);
 
-    Order createOrder(Order order);
+    boolean existsById(Long id);
 
-    Order updateOrder(int id, Order order);
+    Order save(Order order);
 
-    void deleteOrder(int id);
+    void deleteById(Long id);
 }

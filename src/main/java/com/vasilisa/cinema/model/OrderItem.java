@@ -1,13 +1,25 @@
 package com.vasilisa.cinema.model;
 
-import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 @Data
-@Builder
-public class OrderItem {
-    int id;
-    int orderId;
+@Entity
+public class OrderItem implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @ManyToOne
+    @JoinColumn(name="order_id")
+    Order order;
+
+    @Column(nullable = false)
     int seatNumber;
+
+    @Column(nullable = false)
     int rowNumber;
 }

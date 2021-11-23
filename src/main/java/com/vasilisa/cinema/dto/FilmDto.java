@@ -1,6 +1,5 @@
 package com.vasilisa.cinema.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -9,18 +8,17 @@ import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Data
-@Builder
 public class FilmDto {
 
     @Positive
-    int id;
+    private Long id;
 
     @NotBlank
-    String img;
+    private String img;
 
     @Positive
-    int duration;
+    private int duration;
 
     @NotEmpty
-    List<FilmDescriptionDto> filmDescriptions;
+    private List<FilmDescriptionDto> filmDescriptions;
 }

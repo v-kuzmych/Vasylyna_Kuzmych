@@ -1,6 +1,8 @@
 package com.vasilisa.cinema.service.impl;
 
 import com.vasilisa.cinema.dto.UserDto;
+import com.vasilisa.cinema.mapper.OrderMapper;
+import com.vasilisa.cinema.model.Order;
 import com.vasilisa.cinema.service.UserService;
 import com.vasilisa.cinema.model.User;
 import com.vasilisa.cinema.repository.UserRepository;
@@ -8,6 +10,8 @@ import com.vasilisa.cinema.exception.EntityNotFoundException;
 import com.vasilisa.cinema.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,40 +26,50 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public List<UserDto> getAllUsers(Pageable pageable) {
         log.info("get all users");
-        return UserMapper.INSTANCE.mapUserDtos(userRepository.getAllUsers());
+        Page<User> pagedResult = userRepository.findAll(pageable);
+
+        if (!pagedResult.hasContent()) {
+            throw new EntityNotFoundException(format("Orders not found"));
+        }
+
+        return UserMapper.INSTANCE.mapUserDtos(pagedResult.getContent());
     }
 
     @Override
-    public UserDto getUser(int id) {
+    public UserDto getUser(Long id) {
         log.info("get user by id {}", id);
-        User user = userRepository.getUser(id);
-        if (user == null) {
-            throw new EntityNotFoundException(format("User with id %s not found", id));
-        }
+        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(format("User with id %s not found", id)));
         return UserMapper.INSTANCE.mapUserDto(user);
     }
 
     @Override
     public UserDto createUser(UserDto userDto) {
-        log.info("create user with id {}", userDto.getId());
         User user = UserMapper.INSTANCE.mapUser(userDto);
-        user = userRepository.createUser(user);
+        user = userRepository.save(user);
+        log.info("create user with id {}", user.getId());
         return UserMapper.INSTANCE.mapUserDto(user);
     }
 
     @Override
-    public UserDto updateUser(int id, UserDto userDto) {
+    public UserDto updateUser(UserDto userDto) {
+        Long id = userDto.getId();
         log.info("update user with id {}", id);
+        if (!userRepository.existsById(id)){
+            throw new EntityNotFoundException(format("User with id %s not found", id));
+        }
         User user = UserMapper.INSTANCE.mapUser(userDto);
-        user = userRepository.updateUser(id, user);
+        user = userRepository.save(user);
         return UserMapper.INSTANCE.mapUserDto(user);
     }
 
     @Override
-    public void deleteUser(int id) {
+    public void deleteUser(Long id) {
         log.info("delete user with id {}", id);
-        userRepository.deleteUser(id);
+        if (!userRepository.existsById(id)){
+            throw new EntityNotFoundException(format("User with id %s not found", id));
+        }
+        userRepository.deleteById(id);
     }
 }

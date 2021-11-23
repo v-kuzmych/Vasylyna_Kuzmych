@@ -1,18 +1,22 @@
 package com.vasilisa.cinema.repository;
 
 import com.vasilisa.cinema.model.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface UserRepository {
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<User> getAllUsers();
+    List<User> findAll();
 
-    User getUser(int id);
+    Optional<User> findById(Long id);
 
-    User createUser(User user);
+    boolean existsById(Long id);
 
-    User updateUser(int id, User user);
+    User save(User user);
 
-    void deleteUser(int id);
+    void deleteById(Long id);
 }

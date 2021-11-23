@@ -3,6 +3,8 @@ package com.vasilisa.cinema.controller;
 import com.vasilisa.cinema.dto.UserDto;
 import com.vasilisa.cinema.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +20,15 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/users")
-    public List<UserDto> getAllUsers(){
-        return userService.getAllUsers();
+    public List<UserDto> getAllUsers(@RequestParam(defaultValue = "0") int page,
+                                     @RequestParam(defaultValue = "10") int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return userService.getAllUsers(pageable);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping(value = "/user/{id}")
-    public UserDto getUser(@PathVariable int id){
+    public UserDto getUser(@PathVariable Long id){
         return userService.getUser(id);
     }
 
@@ -36,12 +40,12 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/user/{id}")
-    public UserDto updateUser(@PathVariable int id, @Valid @RequestBody UserDto userDto){
-        return userService.updateUser(id, userDto);
+    public UserDto updateUser(@Valid @RequestBody UserDto userDto){
+        return userService.updateUser(userDto);
     }
 
     @DeleteMapping(value = "/user/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable int id){
+    public ResponseEntity<Void> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }

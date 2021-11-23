@@ -1,18 +1,19 @@
 package com.vasilisa.cinema.service;
 
 import com.vasilisa.cinema.dto.UserDto;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<UserDto> getAllUsers();
+    List<UserDto> getAllUsers(Pageable pageable);
 
-    UserDto getUser(int id);
+    UserDto getUser(Long id);
 
     UserDto createUser(UserDto userDTO);
 
-    UserDto updateUser(int id, UserDto userDTO);
+    UserDto updateUser(UserDto userDTO);
 
-    void deleteUser(int id);
+    void deleteUser(Long id);
 }

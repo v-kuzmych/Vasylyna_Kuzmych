@@ -1,18 +1,22 @@
 package com.vasilisa.cinema.repository;
 
 import com.vasilisa.cinema.model.Film;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface FilmRepository {
+@Repository
+public interface FilmRepository extends JpaRepository<Film, Long> {
 
-    List<Film> getAllFilms();
+    List<Film> findAll();
 
-    Film getFilm(int id);
+    Optional<Film> findById(Long id);
 
-    Film createFilm(Film film);
+    boolean existsById(Long id);
 
-    Film updateFilm(int id, Film film);
+    Film save(Film film);
 
-    void deleteFilm(int id);
+    void deleteById(Long id);
 }

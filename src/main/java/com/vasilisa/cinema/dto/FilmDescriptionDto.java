@@ -1,27 +1,23 @@
 package com.vasilisa.cinema.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @Data
-@Builder
 public class FilmDescriptionDto {
 
     @Positive
-    int id;
+    private Long id;
 
-    @Positive
-    int filmId;
+    private LanguageDto language;
 
-    @Positive
-    int languageId;
+    private FilmDto film;
 
     @NotBlank
-    String name;
+    private String name;
 
     @NotBlank
-    String description;
+    private String description;
 }

@@ -1,6 +1,10 @@
 package com.vasilisa.cinema.service.impl;
 
 import com.vasilisa.cinema.dto.SeanceDto;
+import com.vasilisa.cinema.mapper.OrderMapper;
+import com.vasilisa.cinema.model.Film;
+import com.vasilisa.cinema.model.Order;
+import com.vasilisa.cinema.repository.FilmRepository;
 import com.vasilisa.cinema.service.SeanceService;
 import com.vasilisa.cinema.model.Hall;
 import com.vasilisa.cinema.model.Seance;
@@ -10,6 +14,8 @@ import com.vasilisa.cinema.exception.EntityNotFoundException;
 import com.vasilisa.cinema.mapper.SeanceMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,45 +31,57 @@ public class SeanceServiceImpl implements SeanceService {
     private final HallRepository hallRepository;
 
     @Override
-    public List<SeanceDto> getAllSeances() {
+    public List<SeanceDto> getAllSeances(Pageable pageable) {
         log.info("get all seances");
-        return SeanceMapper.INSTANCE.mapSeanceDtos(seanceRepository.getAllSeances());
+        Page<Seance> pagedResult = seanceRepository.findAll(pageable);
+
+        if (!pagedResult.hasContent()) {
+            throw new EntityNotFoundException(format("Seances not found"));
+        }
+
+        return SeanceMapper.INSTANCE.mapSeanceDtos(pagedResult.getContent());
     }
 
     @Override
-    public SeanceDto getSeance(int id) {
+    public SeanceDto getSeance(Long id) {
         log.info("get seance by id {}", id);
-        Seance seance = seanceRepository.getSeance(id);
-        if (seance == null) {
-            throw new EntityNotFoundException(format("Seance with id %s not found", id));
-        }
+        Seance seance = seanceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(format("Seance with id %s not found", id)));
+
         return SeanceMapper.INSTANCE.mapSeanceDto(seance);
     }
 
     @Override
     public SeanceDto createSeance(SeanceDto seanceDto) {
-        log.info("create seance with id {}", seanceDto.getId());
         Seance seance = SeanceMapper.INSTANCE.mapSeance(seanceDto);
 
         // found count of all seats on seance
-        Hall hall = hallRepository.getHall(seance.getHallId());
+        Hall hall = hallRepository.findById(seanceDto.getHall().getId()).orElseThrow(() -> new EntityNotFoundException(format("Hall with id %s not found", seanceDto.getHall().getId())));
         seance.setFreeSeats(hall.getNumberOfSeats() * hall.getNumberOfRows());
 
-        seance = seanceRepository.createSeance(seance);
+        seance = seanceRepository.save(seance);
+        log.info("created seance with id {}", seance.getId());
+
         return SeanceMapper.INSTANCE.mapSeanceDto(seance);
     }
 
     @Override
-    public SeanceDto updateSeance(int id, SeanceDto seanceDto) {
+    public SeanceDto updateSeance(SeanceDto seanceDto) {
+        Long id = seanceDto.getId();
         log.info("update seance with id {}", id);
+        if (!seanceRepository.existsById(id)){
+            throw new EntityNotFoundException(format("Seance with id %s not found", id));
+        }
         Seance seance = SeanceMapper.INSTANCE.mapSeance(seanceDto);
-        seance = seanceRepository.updateSeance(id, seance);
+        seance = seanceRepository.save(seance);
         return SeanceMapper.INSTANCE.mapSeanceDto(seance);
     }
 
     @Override
-    public void deleteSeance(int id) {
+    public void deleteSeance(Long id) {
         log.info("delete seance with id {}", id);
-        seanceRepository.deleteSeance(id);
+        if (!seanceRepository.existsById(id)){
+            throw new EntityNotFoundException(format("Seance with id %s not found", id));
+        }
+        seanceRepository.deleteById(id);
     }
 }

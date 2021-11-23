@@ -1,12 +1,21 @@
 package com.vasilisa.cinema.model;
 
-import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 @Data
-@Builder
-public class Hall {
-    int id;
+@Entity
+public class Hall implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
+    @Column(nullable = false)
     int numberOfRows;
+
+    @Column(nullable = false)
     int numberOfSeats;
 }

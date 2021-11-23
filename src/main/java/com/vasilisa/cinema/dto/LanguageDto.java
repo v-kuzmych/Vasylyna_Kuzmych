@@ -1,24 +1,22 @@
 package com.vasilisa.cinema.dto;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 @Data
-@Builder
 public class LanguageDto {
 
     @Positive
-    int id;
+    private int id;
 
     @NotBlank
-    String locale;
+    private String locale;
 
     @NotBlank
-    String shortName;
+    private String shortName;
 
     @NotBlank
-    String fullName;
+    private String fullName;
 }
