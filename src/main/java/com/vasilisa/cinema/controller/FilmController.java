@@ -1,6 +1,7 @@
 package com.vasilisa.cinema.controller;
 
 import com.vasilisa.cinema.dto.FilmDto;
+import com.vasilisa.cinema.exception.EntityNotFoundException;
 import com.vasilisa.cinema.model.Film;
 import com.vasilisa.cinema.service.FilmService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +44,10 @@ public class FilmController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/film/{id}")
-    public FilmDto updateFilm(@RequestBody @Valid FilmDto filmDto){
+    public FilmDto updateFilm(@PathVariable Long id, @RequestBody @Valid FilmDto filmDto){
+        if (id != filmDto.getId()) {
+            throw new EntityNotFoundException(format("Film with id %s not found", id));
+        }
         return filmService.updateFilm(filmDto);
     }
 

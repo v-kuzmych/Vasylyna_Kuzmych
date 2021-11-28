@@ -1,6 +1,7 @@
 package com.vasilisa.cinema.controller;
 
 import com.vasilisa.cinema.dto.UserDto;
+import com.vasilisa.cinema.exception.EntityNotFoundException;
 import com.vasilisa.cinema.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,7 +43,10 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/user/{id}")
-    public UserDto updateUser(@Valid @RequestBody UserDto userDto){
+    public UserDto updateUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+        if (id != userDto.getId()) {
+            throw new EntityNotFoundException(format("User with id %s not found", id));
+        }
         return userService.updateUser(userDto);
     }
 

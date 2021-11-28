@@ -13,7 +13,5 @@ public interface HallService {
 
     HallDto createHall(HallDto hallDTO);
 
-    HallDto updateHall(HallDto hallDTO);
-
     void deleteHall(Long id);
 }

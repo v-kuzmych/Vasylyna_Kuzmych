@@ -1,6 +1,8 @@
 package com.vasilisa.cinema.dto;
 
 import com.vasilisa.cinema.model.OrderItem;
+import com.vasilisa.cinema.model.Seance;
+import com.vasilisa.cinema.model.User;
 import lombok.Data;
 
 import javax.validation.constraints.FutureOrPresent;
@@ -10,13 +12,14 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class OrderDto {
+public class ReservationDto {
 
     @Positive
     private Long id;
 
-    private UserDto user;
-    private SeanceDto seance;
+    private User user;
+
+    private Seance seance;
 
     @Positive
     private int price;
@@ -24,6 +27,5 @@ public class OrderDto {
     @FutureOrPresent
     private LocalDateTime date;
 
-    @NotEmpty
     private List<OrderItem> orderItems;
 }

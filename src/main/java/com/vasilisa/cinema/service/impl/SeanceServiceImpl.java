@@ -1,10 +1,6 @@
 package com.vasilisa.cinema.service.impl;
 
 import com.vasilisa.cinema.dto.SeanceDto;
-import com.vasilisa.cinema.mapper.OrderMapper;
-import com.vasilisa.cinema.model.Film;
-import com.vasilisa.cinema.model.Order;
-import com.vasilisa.cinema.repository.FilmRepository;
 import com.vasilisa.cinema.service.SeanceService;
 import com.vasilisa.cinema.model.Hall;
 import com.vasilisa.cinema.model.Seance;
@@ -46,7 +42,6 @@ public class SeanceServiceImpl implements SeanceService {
     public SeanceDto getSeance(Long id) {
         log.info("get seance by id {}", id);
         Seance seance = seanceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(format("Seance with id %s not found", id)));
-
         return SeanceMapper.INSTANCE.mapSeanceDto(seance);
     }
 
@@ -55,7 +50,7 @@ public class SeanceServiceImpl implements SeanceService {
         Seance seance = SeanceMapper.INSTANCE.mapSeance(seanceDto);
 
         // found count of all seats on seance
-        Hall hall = hallRepository.findById(seanceDto.getHall().getId()).orElseThrow(() -> new EntityNotFoundException(format("Hall with id %s not found", seanceDto.getHall().getId())));
+        Hall hall = hallRepository.findById(seanceDto.getHall().getId()).orElseThrow(() -> new EntityNotFoundException(format("Seance with id %s not found", seanceDto.getHall().getId())));
         seance.setFreeSeats(hall.getNumberOfSeats() * hall.getNumberOfRows());
 
         seance = seanceRepository.save(seance);

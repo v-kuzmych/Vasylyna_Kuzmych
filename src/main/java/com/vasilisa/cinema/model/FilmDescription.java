@@ -20,7 +20,8 @@ public class FilmDescription implements Serializable {
     @Column(nullable = false)
     String description;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="film_id")
     Film film;
 

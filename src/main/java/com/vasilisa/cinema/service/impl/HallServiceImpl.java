@@ -1,8 +1,6 @@
 package com.vasilisa.cinema.service.impl;
 
 import com.vasilisa.cinema.dto.HallDto;
-import com.vasilisa.cinema.mapper.FilmMapper;
-import com.vasilisa.cinema.model.Film;
 import com.vasilisa.cinema.model.Hall;
 import com.vasilisa.cinema.service.HallService;
 import com.vasilisa.cinema.repository.HallRepository;
@@ -46,21 +44,9 @@ public class HallServiceImpl implements HallService {
 
     @Override
     public HallDto createHall(HallDto hallDto) {
-        log.info("create hall with id {}", hallDto.getId());
         Hall hall = HallMapper.INSTANCE.mapHall(hallDto);
         hall = hallRepository.save(hall);
-        return HallMapper.INSTANCE.mapHallDto(hall);
-    }
-
-    @Override
-    public HallDto updateHall(HallDto hallDto) {
-        Long id = hallDto.getId();
-        log.info("update hall with id {}", id);
-        if (!hallRepository.existsById(id)){
-            throw new EntityNotFoundException(format("Hall with id %s not found", id));
-        }
-        Hall hall = HallMapper.INSTANCE.mapHall(hallDto);
-        hall = hallRepository.save(hall);
+        log.info("created hall with id {}", hall.getId());
         return HallMapper.INSTANCE.mapHallDto(hall);
     }
 

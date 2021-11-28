@@ -10,11 +10,11 @@ public class OrderItemDto {
     @Positive
     private Long id;
 
-    private OrderDto order;
+    private ReservationDto reservation;
 
     @Positive
     private int seatNumber;
 
     @Positive
-    private int rowNumber;
+    private int lineNumber;
 }

@@ -1,7 +1,6 @@
 package com.vasilisa.cinema.service;
 
 import com.vasilisa.cinema.dto.SeanceDto;
-import com.vasilisa.cinema.model.Seance;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

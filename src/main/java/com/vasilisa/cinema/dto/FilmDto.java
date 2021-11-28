@@ -1,5 +1,6 @@
 package com.vasilisa.cinema.dto;
 
+import com.vasilisa.cinema.model.FilmDescription;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -20,5 +21,5 @@ public class FilmDto {
     private int duration;
 
     @NotEmpty
-    private List<FilmDescriptionDto> filmDescriptions;
+    private List<FilmDescription> filmDescriptions;
 }

@@ -1,6 +1,7 @@
 package com.vasilisa.cinema.controller;
 
 import com.vasilisa.cinema.dto.SeanceDto;
+import com.vasilisa.cinema.exception.EntityNotFoundException;
 import com.vasilisa.cinema.model.Seance;
 import com.vasilisa.cinema.service.SeanceService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +44,10 @@ public class SeanceController {
 
     @ResponseStatus(HttpStatus.OK)
     @PutMapping(value = "/seance/{id}")
-    public SeanceDto updateSeance(@RequestBody @Valid SeanceDto seanceDto){
+    public SeanceDto updateSeance(@PathVariable Long id, @RequestBody @Valid SeanceDto seanceDto) {
+        if (id != seanceDto.getId()) {
+            throw new EntityNotFoundException(format("Seance with id %s not found", id));
+        }
         return seanceService.updateSeance(seanceDto);
     }
 

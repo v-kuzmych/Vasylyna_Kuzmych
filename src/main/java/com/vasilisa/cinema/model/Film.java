@@ -20,6 +20,6 @@ public class Film implements Serializable {
     @Column(nullable = false)
     int duration;
 
-    @OneToMany(mappedBy = "film", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "film")
     List<FilmDescription> filmDescriptions;
 }

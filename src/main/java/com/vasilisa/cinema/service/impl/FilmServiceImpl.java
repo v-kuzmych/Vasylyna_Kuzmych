@@ -1,11 +1,9 @@
 package com.vasilisa.cinema.service.impl;
 
 import com.vasilisa.cinema.dto.FilmDto;
-import com.vasilisa.cinema.mapper.UserMapper;
 import com.vasilisa.cinema.model.Film;
 import com.vasilisa.cinema.model.FilmDescription;
-import com.vasilisa.cinema.model.Language;
-import com.vasilisa.cinema.model.User;
+import com.vasilisa.cinema.repository.FilmDescriptionRepository;
 import com.vasilisa.cinema.service.FilmService;
 import com.vasilisa.cinema.repository.FilmRepository;
 import com.vasilisa.cinema.exception.EntityNotFoundException;
@@ -16,7 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -27,6 +25,7 @@ import static java.lang.String.format;
 public class FilmServiceImpl implements FilmService {
 
     private final FilmRepository filmRepository;
+    private final FilmDescriptionRepository filmDescriptionRepository;
 
     @Override
     public List<FilmDto> getAllFilms(Pageable pageable) {
@@ -49,21 +48,32 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public FilmDto createFilm(FilmDto filmDto) {
-        Film film = FilmMapper.INSTANCE.mapFilm(filmDto);
-        film = filmRepository.save(film);
-        log.info("create user with id {}", film.getId());
-        return FilmMapper.INSTANCE.mapFilmDto(film);
+        return saveFilm(filmDto);
     }
 
     @Override
     public FilmDto updateFilm(FilmDto filmDto) {
         Long id = filmDto.getId();
-        log.info("update film with id {}", id);
         if (!filmRepository.existsById(id)){
             throw new EntityNotFoundException(format("Film with id %s not found", id));
         }
+
+        return saveFilm(filmDto);
+    }
+
+    public FilmDto saveFilm(FilmDto filmDto) {
         Film film = FilmMapper.INSTANCE.mapFilm(filmDto);
         film = filmRepository.save(film);
+        log.info("created / updated film with id {}", film.getId());
+
+        List<FilmDescription> filmDescriptions = new ArrayList<>();
+        for (FilmDescription fd : filmDto.getFilmDescriptions()) {
+            fd.setFilm(film);
+            filmDescriptions.add(fd);
+        }
+        filmDescriptionRepository.saveAll(filmDescriptions);
+
+        film.setFilmDescriptions(filmDescriptions);
         return FilmMapper.INSTANCE.mapFilmDto(film);
     }
 

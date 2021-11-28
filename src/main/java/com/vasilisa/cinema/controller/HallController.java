@@ -1,6 +1,7 @@
 package com.vasilisa.cinema.controller;
 
 import com.vasilisa.cinema.dto.HallDto;
+import com.vasilisa.cinema.exception.EntityNotFoundException;
 import com.vasilisa.cinema.service.HallService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static java.lang.String.format;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,12 +39,6 @@ public class HallController {
     @PostMapping(value = "/hall")
     public HallDto createHall(@Valid @RequestBody HallDto hallDto){
         return hallService.createHall(hallDto);
-    }
-
-    @ResponseStatus(HttpStatus.OK)
-    @PutMapping(value = "/hall/{id}")
-    public HallDto updateHall(@RequestBody @Valid HallDto hallDto){
-        return hallService.updateHall(hallDto);
     }
 
     @DeleteMapping(value = "/hall/{id}")

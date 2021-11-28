@@ -1,8 +1,6 @@
 package com.vasilisa.cinema.service.impl;
 
 import com.vasilisa.cinema.dto.UserDto;
-import com.vasilisa.cinema.mapper.OrderMapper;
-import com.vasilisa.cinema.model.Order;
 import com.vasilisa.cinema.service.UserService;
 import com.vasilisa.cinema.model.User;
 import com.vasilisa.cinema.repository.UserRepository;
@@ -14,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -31,7 +30,7 @@ public class UserServiceImpl implements UserService {
         Page<User> pagedResult = userRepository.findAll(pageable);
 
         if (!pagedResult.hasContent()) {
-            throw new EntityNotFoundException(format("Orders not found"));
+            throw new EntityNotFoundException(format("Users not found"));
         }
 
         return UserMapper.INSTANCE.mapUserDtos(pagedResult.getContent());
@@ -47,8 +46,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDto) {
         User user = UserMapper.INSTANCE.mapUser(userDto);
+        user.setRole("user");
+        user.setDate(LocalDateTime.now());
         user = userRepository.save(user);
-        log.info("create user with id {}", user.getId());
+        log.info("created user with id {}", user.getId());
         return UserMapper.INSTANCE.mapUserDto(user);
     }
 

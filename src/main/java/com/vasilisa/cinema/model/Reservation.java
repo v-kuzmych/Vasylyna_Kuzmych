@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class Order implements Serializable {
+public class Reservation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +21,14 @@ public class Order implements Serializable {
     @Column(nullable = false)
     LocalDateTime date;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "reservation")
     List<OrderItem> orderItems;
-
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    User user;
 
     @ManyToOne
     @JoinColumn(name="seance_id")
     Seance seance;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    User user;
 }

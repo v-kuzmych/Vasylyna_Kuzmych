@@ -1,5 +1,6 @@
 package com.vasilisa.cinema.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -13,13 +14,14 @@ public class OrderItem implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne
-    @JoinColumn(name="order_id")
-    Order order;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="reservation_id")
+    Reservation reservation;
 
     @Column(nullable = false)
     int seatNumber;
 
     @Column(nullable = false)
-    int rowNumber;
+    int lineNumber;
 }
